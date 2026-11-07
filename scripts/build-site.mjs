@@ -34,6 +34,64 @@ const BOOKS = [...FLAGSHIP_BOOKS, ...USE_BOOKS];
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ORIGIN = "https://jonldavis-coder.github.io/flying-sauces";
 const TODAY = "2026-11-07";
+const PHOTOS = JSON.parse(fs.readFileSync(path.join(root, "data/photos.json"), "utf8"));
+
+function photoRecord(sauce) {
+  const direct = PHOTOS.sauces[sauce.slug];
+  if (direct?.kind === "sauce" && direct.files) {
+    return {
+      ...direct,
+      kind: "sauce",
+      alt: `${sauce.name}, a photograph of the sauce.`,
+      placeNote: ""
+    };
+  }
+  const place = PHOTOS.places[sauce.countryCode];
+  if (!place?.files) return null;
+  return {
+    ...place,
+    kind: "place",
+    alt: `Landscape of ${sauce.country}. The photograph shows the region, not ${sauce.name}.`,
+    placeNote: `Landscape of ${sauce.country}. This photograph shows the region, not the sauce.`
+  };
+}
+
+function photoSrc(record) {
+  const widths = Object.keys(record.files).map(Number).sort((a, b) => a - b);
+  const chosen = widths.find((width) => width >= 960) || widths[widths.length - 1];
+  return record.files[String(chosen)];
+}
+
+function photoImg(record, { alt, sizes, eager = false }) {
+  const srcset = Object.entries(record.files)
+    .sort((a, b) => Number(a[0]) - Number(b[0]))
+    .map(([width, file]) => `${file} ${width}w`)
+    .join(", ");
+  return `<img src="${photoSrc(record)}" srcset="${srcset}" sizes="${sizes}" alt="${escapeHtml(alt)}" width="${record.width}" height="${record.height}" loading="${eager ? "eager" : "lazy"}" decoding="async">`;
+}
+
+function creditLine(record) {
+  const license = record.licenseUrl
+    ? `<a href="${escapeHtml(record.licenseUrl)}">${escapeHtml(record.license)}</a>`
+    : escapeHtml(record.license || "Free license");
+  return `Photo by ${escapeHtml(record.credit)}. ${license}. <a href="${escapeHtml(record.sourceUrl)}">Wikimedia Commons</a>.`;
+}
+
+function photoFigure(sauce, { sizes = "(min-width: 900px) 72vw, 100vw", eager = false, className = "photo-hero" } = {}) {
+  const record = photoRecord(sauce);
+  if (!record) return "";
+  const note = record.placeNote
+    ? `<span class="photo-note">${escapeHtml(record.placeNote)}</span> `
+    : `<span class="photo-note">${escapeHtml(sauce.name)}.</span> `;
+  return `<figure class="${className}">
+        ${photoImg(record, { alt: record.alt, sizes, eager })}
+        <figcaption>${note}${creditLine(record)}</figcaption>
+      </figure>`;
+}
+
+function leadPhoto(list) {
+  return list.find((sauce) => photoRecord(sauce)?.kind === "sauce") || list[0];
+}
 
 function write(rel, contents) {
   const file = path.join(root, rel);
@@ -193,9 +251,10 @@ function card(sauce) {
   const countries = countriesOf(sauce).join(",");
   return `<article class="card" data-slug="${escapeHtml(sauce.slug)}" data-region="${escapeHtml(sauce.region)}" data-type="${escapeHtml(sauce.baseType)}" data-heat="${escapeHtml(sauce.heat)}" data-uses="${escapeHtml(sauce.uses.join(","))}" data-diets="${escapeHtml((sauce.diets || []).join(","))}" data-countries="${escapeHtml(countries)}" data-search="${escapeHtml(searchText(sauce))}">
         <a class="card-media" href="sauces/${sauce.slug}/">
-          <img src="${sauce.photo}" alt="Illustration of ${escapeHtml(sauce.name)}" width="800" height="520">
+          ${sauce.photoRecord ? photoImg(sauce.photoRecord, { alt: sauce.photoRecord.alt, sizes: "(min-width: 1040px) 30vw, (min-width: 720px) 45vw, 100vw" }) : ""}
           <span class="badge">${escapeHtml(sauce.country)}</span>
         </a>
+        <p class="card-credit">${sauce.photoRecord?.placeNote ? `${escapeHtml(sauce.photoRecord.placeNote)} ` : ""}${sauce.photoRecord ? creditLine(sauce.photoRecord) : ""}</p>
         <div class="card-body">
           <p class="eyebrow">${escapeHtml(sauce.region)} · ${escapeHtml(labelOf(BASE_TYPES, sauce.baseType))}</p>
           <h2><a href="sauces/${sauce.slug}/">${escapeHtml(sauce.name)}</a></h2>
@@ -343,6 +402,7 @@ function saucePage(sauce, count, known) {
         <p class="eyebrow">Arriving in ${escapeHtml(arrivalPlace(sauce))}</p>
         <p class="meta">${escapeHtml(sauce.country)} · ${escapeHtml(sauce.region)}</p>
         <h1 class="sauce-title">${escapeHtml(sauce.name)}</h1>
+        ${photoFigure(sauce, { eager: true })}
         ${routeHtml}
         ${nextHtml}
         ${sauce.pronunciation ? `<p class="meta">Pronounced ${escapeHtml(sauce.pronunciation)}</p>` : ""}
@@ -396,10 +456,6 @@ function saucePage(sauce, count, known) {
         <section id="comments" class="no-print section-rule" aria-label="Comments"></section>
       </div>
       <aside class="rail">
-        <figure class="sauce-photo">
-          <img src="${sauce.photo}" alt="Illustration of a bowl of ${escapeHtml(sauce.name)}" width="800" height="520">
-          <figcaption>${escapeHtml(sauce.photoCredit)}</figcaption>
-        </figure>
         <div class="origin-card">
           <h2>Origin</h2>
           <dl>
@@ -444,6 +500,7 @@ function explorePage({ title, description, current, crumbs, sauces, count }) {
       ${adSlot("explore_top")}
       <p class="eyebrow">Explore</p>
       <h1>${escapeHtml(title)}</h1>
+      ${sauces.length ? photoFigure(leadPhoto(sauces), { eager: true }) : ""}
       <p class="lede">${escapeHtml(description)}</p>
       <p class="results-count">${sauces.length} ${sauces.length === 1 ? "sauce" : "sauces"}</p>
       <div class="grid">${sauces.map(card).join("\n") || "<p>None yet.</p>"}</div>
@@ -464,11 +521,15 @@ function checkboxGroup(name, list) {
 
 resetGenerated();
 validate(SAUCES);
-const sauces = SAUCES.map((sauce) => ({
-  ...sauce,
-  photo: writeIllustration(root, sauce),
-  photoCredit: "Original illustration for Flying Sauces of the World."
-}));
+const sauces = SAUCES.map((sauce) => {
+  const record = photoRecord(sauce);
+  return {
+    ...sauce,
+    photoRecord: record,
+    photo: record ? photoSrc(record) : writeIllustration(root, sauce),
+    photoCredit: record ? `${record.credit}. ${record.license}.` : "Original illustration for Flying Sauces of the World."
+  };
+});
 sauces.sort((a, b) => a.name.localeCompare(b.name));
 const count = sauces.length;
 
@@ -537,7 +598,7 @@ write("index.html", page({
           <p class="button-row"><a class="button" href="map/">Open the route map</a> <a class="button button-quiet" href="journeys/">See the journeys</a></p>
         </div>
         <div class="hero-media">
-          <img src="assets/images/hero.svg" alt="Illustration of a paper plane crossing a globe above jars of sauce" width="800" height="520">
+          ${photoFigure(leadPhoto(sauces.filter((sauce) => ["pesto-alla-genovese", "pico-de-gallo", "chimichurri", "romesco"].includes(sauce.slug))), { eager: true, sizes: "(min-width: 900px) 42vw, 100vw" })}
         </div>
       </section>
       ${adSlot("home_after_hero")}
@@ -545,7 +606,10 @@ write("index.html", page({
         <h2>Journeys</h2>
         <p class="lede">Five routes through sauces that are already in this issue. A balloon, a plane, a train, or a boat marks the leg. The line is a reading route, not a claim that anyone traveled it in that order.</p>
         <div class="explore-grid">
-          ${JOURNEYS.map((journey) => `<a class="explore-card" href="journeys/${journey.slug}/"><p class="eyebrow">${escapeHtml(VEHICLES[journey.vehicle])}</p><h2>${escapeHtml(journey.title)}</h2><p>${escapeHtml(journey.dek)}</p></a>`).join("\n")}
+          ${JOURNEYS.map((journey) => {
+            const first = sauces.find((sauce) => sauce.slug === journey.stops[0]);
+            return `<a class="explore-card" href="journeys/${journey.slug}/">${first ? photoImg(photoRecord(first), { alt: photoRecord(first).alt, sizes: "(min-width: 900px) 30vw, 100vw" }) : ""}<p class="eyebrow">${escapeHtml(VEHICLES[journey.vehicle])}</p><h2>${escapeHtml(journey.title)}</h2><p>${escapeHtml(journey.dek)}</p></a>`;
+          }).join("\n")}
         </div>
       </section>
       <section class="feature-band" aria-label="Regional features">
@@ -557,7 +621,8 @@ write("index.html", page({
         <div class="explore-grid">
           ${PLACES.map((place) => {
             const n = sauces.filter((sauce) => place.match(sauce)).length;
-            return `<a class="explore-card" href="places/${place.slug}/"><p class="eyebrow">${n} sauces</p><h2>${escapeHtml(place.title)}</h2><p>${escapeHtml(place.dek)}</p></a>`;
+            const lead = leadPhoto(sauces.filter((sauce) => place.match(sauce)));
+            return `<a class="explore-card" href="places/${place.slug}/">${lead ? photoImg(photoRecord(lead), { alt: photoRecord(lead).alt, sizes: "(min-width: 900px) 30vw, 100vw" }) : ""}<p class="eyebrow">${n} sauces</p><h2>${escapeHtml(place.title)}</h2><p>${escapeHtml(place.dek)}</p></a>`;
           }).join("\n")}
         </div>
       </section>
@@ -708,6 +773,7 @@ for (const place of PLACES) {
     main: `<article class="wrap prose">
         <p class="eyebrow">Place</p>
         <h1>${escapeHtml(place.title)}</h1>
+        ${photoFigure(leadPhoto(members), { eager: true })}
         <p class="dek">${escapeHtml(place.dek)}</p>
         <p>${members.length} sauces in this issue.</p>
         <ul>${placeCards(members)}</ul>
@@ -748,6 +814,7 @@ for (const chapter of SETTLEMENTS) {
     main: `<article class="wrap prose">
         <p class="eyebrow">Who settled the flavor</p>
         <h1>${escapeHtml(chapter.title)}</h1>
+        ${photoFigure(leadPhoto(members), { eager: true })}
         <p class="dek">${escapeHtml(chapter.dek)}</p>
         ${chapter.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
         <h2>Sauces in this chapter</h2>
@@ -769,7 +836,10 @@ write("journeys/index.html", page({
       <h1>Balloon, plane, train, and boat</h1>
       <p class="lede">Each journey is a reading order through sauces in this issue. The vehicle is the one that fits the distance. The line on the map is a schematic leg, not a GPS track and not a claim about a historical passenger.</p>
       <div class="explore-grid">
-        ${JOURNEYS.map((journey) => `<a class="explore-card" href="journeys/${journey.slug}/"><p class="eyebrow">${escapeHtml(VEHICLES[journey.vehicle])} · ${journey.stops.length} stops</p><h2>${escapeHtml(journey.title)}</h2><p>${escapeHtml(journey.dek)}</p></a>`).join("\n")}
+        ${JOURNEYS.map((journey) => {
+          const first = knownSauces.get(journey.stops[0]);
+          return `<a class="explore-card" href="journeys/${journey.slug}/">${first ? photoImg(photoRecord(first), { alt: photoRecord(first).alt, sizes: "(min-width: 900px) 30vw, 100vw" }) : ""}<p class="eyebrow">${escapeHtml(VEHICLES[journey.vehicle])} · ${journey.stops.length} stops</p><h2>${escapeHtml(journey.title)}</h2><p>${escapeHtml(journey.dek)}</p></a>`;
+        }).join("\n")}
       </div>
     </div>`
 }));
@@ -798,6 +868,7 @@ for (const journey of JOURNEYS) {
     main: `<article class="wrap">
         <p class="eyebrow">${escapeHtml(VEHICLES[journey.vehicle])}</p>
         <h1>${escapeHtml(journey.title)}</h1>
+        ${photoFigure(leadPhoto(members), { eager: true })}
         <p class="dek">${escapeHtml(journey.dek)}</p>
         ${journey.intro.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
         <figure class="route-map">
@@ -903,12 +974,16 @@ write("books/index.html", page({
       <p class="lede">Curated books for a later print or download edition, plus the use-based booklets. You can read and print them now. The buy buttons say coming soon, and every price is a placeholder, not an offer.</p>
       <div class="book-list">
         ${boxCard}
-        ${builtBooks.map((book) => `<a class="book-card" href="books/${book.slug}/">
-          <img src="assets/images/books/${book.slug}.svg" alt="Cover design for ${escapeHtml(book.title)}" width="600" height="800">
+        ${builtBooks.map((book) => {
+          const lead = leadPhoto(book.members);
+          return `<a class="book-card" href="books/${book.slug}/">
+          ${lead ? photoImg(photoRecord(lead), { alt: photoRecord(lead).alt, sizes: "(min-width: 900px) 30vw, 100vw" }) : ""}
+          <img class="cover" src="assets/images/books/${book.slug}.svg" alt="Cover design for ${escapeHtml(book.title)}" width="600" height="800">
           <p class="eyebrow">${book.members.length} sauces · ${escapeHtml(priceLabel(book.price, SHOP))}</p>
           <h2>${escapeHtml(book.title)}</h2>
           <p>${escapeHtml(book.dek)}</p>
-        </a>`).join("\n")}
+        </a>`;
+        }).join("\n")}
       </div>
     </div>`
 }));
@@ -984,6 +1059,7 @@ for (const book of builtBooks) {
     canonical: url,
     extraHead: og(book.title, book.dek, url),
     main: `<article class="wrap book">
+        ${photoFigure(leadPhoto(book.members), { eager: true })}
         <div class="book-hero">
           <img class="cover" src="${coverPath}" alt="Original cover design for ${escapeHtml(book.title)}" width="600" height="800">
           <header class="book-cover">
@@ -1095,7 +1171,7 @@ prosePage({
   paragraphs: [
     `Flying Sauces of the World is an editorial field guide to sauces. This issue has ${count} sauces. The public goal is 1,000. The count on the site is the number of edited entries, and it will change when new entries are added.`,
     "Each entry has a home recipe, a country and region, a cultural note, a short history, a flavor line, a heat level, a base type, uses, pairings, variations, and one to three field notes. If a popular origin story is disputed, the page says so or leaves it out.",
-    "Illustrations are drawn for this site. They are not photographs of people. The map uses Natural Earth country shapes and Leaflet, with no paid map key.",
+    "Photographs are freely licensed files from Wikimedia Commons, stored in this repository. Each one has a credit and a license on the page and on the credits page. A photograph is used for a sauce only when the file shows that sauce. Otherwise the page shows a landscape of the sauce’s country and says so. Drawings on the book covers are original. The map uses Natural Earth country shapes and Leaflet, with no paid map key.",
     "The community tools follow the same pattern as the related project <a href=\"https://jonldavis-coder.github.io/granny-recipes/\">Granny Recipes</a>: comments, hearts, star ratings, and reader submissions. Twists are extra here. Until Supabase is connected, a banner says that those notes stay in the browser.",
     "The site is published by jonldavis-coder and hosted on GitHub Pages from the main branch."
   ]
@@ -1282,6 +1358,36 @@ write("sauce.html", page({
   robots: "noindex",
   sauceCount: count,
   main: `<div class="wrap"><article id="sauce-root"></article><noscript><p>This page needs JavaScript to show a sauce saved in the browser.</p></noscript></div>`
+}));
+
+const creditSeen = new Set();
+const creditItems = [];
+for (const sauce of sauces) {
+  const record = photoRecord(sauce);
+  if (!record?.sourceUrl || creditSeen.has(record.sourceUrl)) continue;
+  creditSeen.add(record.sourceUrl);
+  creditItems.push({ sauce, record });
+}
+write("credits/index.html", page({
+  title: "Photo credits · Flying Sauces",
+  description: "Credits and licenses for the photographs in this field guide. Images are stored in the repository. They are not hotlinked.",
+  current: "about",
+  pageName: "static",
+  sauceCount: count,
+  canonical: `${ORIGIN}/credits/`,
+  main: `<article class="wrap prose">
+      <p class="eyebrow">Photographs</p>
+      <h1>Photo credits</h1>
+      <p class="lede">Every photograph is a freely licensed file from Wikimedia Commons, downloaded into this site. A sauce page uses a dish photograph only when the file shows that sauce. The other pages use a landscape of the country and say so in the caption. Nothing here is hotlinked.</p>
+      <p>${creditItems.length} photographs. ${creditItems.filter((item) => item.record.kind === "sauce").length} show a sauce. ${creditItems.filter((item) => item.record.kind === "place").length} are landscapes.</p>
+      <ul class="credit-list">
+        ${creditItems.map(({ sauce, record }) => `<li>
+          ${photoImg(record, { alt: record.alt, sizes: "160px" })}
+          <p><strong>${escapeHtml(record.kind === "sauce" ? sauce.name : `Landscape of ${record.country || sauce.country}`)}</strong></p>
+          <p>${creditLine(record)}</p>
+        </li>`).join("\n")}
+      </ul>
+    </article>`
 }));
 
 const urls = [];

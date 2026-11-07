@@ -88,6 +88,7 @@ export function page({
         <nav aria-label="Footer">
           <a href="journeys/">Journeys</a>
           <a href="places/">Places</a>
+          <a href="credits/">Photo credits</a>
           <a href="places/who-settled-the-flavor/">Who settled the flavor</a>
           <a href="shop/">Shop</a>
           <a href="books/">Recipe books</a>
