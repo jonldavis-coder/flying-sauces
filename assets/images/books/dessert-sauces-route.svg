@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360">
+  <rect width="800" height="360" fill="#f4efe4"/>
+  <rect x="8" y="8" width="784" height="344" fill="none" stroke="#e2b007" stroke-width="6"/>
+  <path d="M193.8 142.2 L354.5 137.4 L158.6 107.8 L271.5 241.7 L394.0 93.1 L435.3 80.4 L425.5 113.0" fill="none" stroke="#1e4d5c" stroke-width="3" stroke-dasharray="7 6"/>
+  <circle cx="193.8" cy="142.2" r="5" fill="#8c2f1e"/><circle cx="354.5" cy="137.4" r="5" fill="#8c2f1e"/><circle cx="158.6" cy="107.8" r="5" fill="#8c2f1e"/><circle cx="271.5" cy="241.7" r="5" fill="#8c2f1e"/><circle cx="394.0" cy="93.1" r="5" fill="#8c2f1e"/><circle cx="435.3" cy="80.4" r="5" fill="#8c2f1e"/><circle cx="425.5" cy="113.0" r="5" fill="#8c2f1e"/>
+  <text x="201.8" y="134.2" font-family="Georgia, serif" font-size="12">Mexico</text><text x="166.6" y="99.8" font-family="Georgia, serif" font-size="12">United States</text><text x="402.0" y="85.1" font-family="Georgia, serif" font-size="12">United Kingdom</text><text x="433.5" y="105.0" font-family="Georgia, serif" font-size="12">Italy</text>
+</svg>

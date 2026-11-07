@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360">
+  <rect width="800" height="360" fill="#f4efe4"/>
+  <rect x="8" y="8" width="784" height="344" fill="none" stroke="#e2b007" stroke-width="6"/>
+  <path d="M233.4 143.0 L244.7 151.2 L253.8 150.4 L266.3 150.6 L275.6 162.9 L276.4 156.6 L258.6 150.4 L52.0 202.1 L80.9 145.9 L753.5 246.1" fill="none" stroke="#1e4d5c" stroke-width="3" stroke-dasharray="7 6"/>
+  <circle cx="233.4" cy="143.0" r="5" fill="#8c2f1e"/><circle cx="244.7" cy="151.2" r="5" fill="#8c2f1e"/><circle cx="253.8" cy="150.4" r="5" fill="#8c2f1e"/><circle cx="266.3" cy="150.6" r="5" fill="#8c2f1e"/><circle cx="275.6" cy="162.9" r="5" fill="#8c2f1e"/><circle cx="276.4" cy="156.6" r="5" fill="#8c2f1e"/><circle cx="258.6" cy="150.4" r="5" fill="#8c2f1e"/><circle cx="52.0" cy="202.1" r="5" fill="#8c2f1e"/><circle cx="80.9" cy="145.9" r="5" fill="#8c2f1e"/><circle cx="753.5" cy="246.1" r="5" fill="#8c2f1e"/>
+  <text x="241.4" y="135.0" font-family="Georgia, serif" font-size="12">Cuba</text><text x="261.8" y="142.4" font-family="Georgia, serif" font-size="12">Haiti</text><text x="283.6" y="154.9" font-family="Georgia, serif" font-size="12">Trinidad and Tobago</text><text x="266.6" y="142.4" font-family="Georgia, serif" font-size="12">Dominican Republic</text><text x="88.9" y="137.9" font-family="Georgia, serif" font-size="12">United States</text><text x="761.5" y="238.1" font-family="Georgia, serif" font-size="12">New Zealand</text>
+</svg>

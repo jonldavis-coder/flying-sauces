@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360">
+  <rect width="800" height="360" fill="#f4efe4"/>
+  <rect x="8" y="8" width="784" height="344" fill="none" stroke="#e2b007" stroke-width="6"/>
+  <path d="M158.6 107.8 L449.7 225.5 L611.0 122.7 L271.5 241.7 L748.9 244.9 L243.7 151.0 L567.4 145.2 L471.7 209.6" fill="none" stroke="#1e4d5c" stroke-width="3" stroke-dasharray="7 6"/>
+  <circle cx="158.6" cy="107.8" r="5" fill="#8c2f1e"/><circle cx="449.7" cy="225.5" r="5" fill="#8c2f1e"/><circle cx="611.0" cy="122.7" r="5" fill="#8c2f1e"/><circle cx="271.5" cy="241.7" r="5" fill="#8c2f1e"/><circle cx="748.9" cy="244.9" r="5" fill="#8c2f1e"/><circle cx="243.7" cy="151.0" r="5" fill="#8c2f1e"/><circle cx="567.4" cy="145.2" r="5" fill="#8c2f1e"/><circle cx="471.7" cy="209.6" r="5" fill="#8c2f1e"/>
+  <text x="166.6" y="99.8" font-family="Georgia, serif" font-size="12">United States</text><text x="619.0" y="114.7" font-family="Georgia, serif" font-size="12">China</text><text x="756.9" y="236.9" font-family="Georgia, serif" font-size="12">New Zealand</text><text x="575.4" y="137.2" font-family="Georgia, serif" font-size="12">India</text><text x="479.7" y="201.6" font-family="Georgia, serif" font-size="12">Mozambique</text>
+</svg>
