@@ -151,6 +151,8 @@ h1 { font-size: clamp(2.2rem, 7vw, 4.6rem); margin: 0.2rem 0; }
 .button-quiet, .heart[aria-pressed="true"] { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
 a.button { color: var(--paper); }
 a.button:hover { color: var(--gold); }
+a.button.button-quiet { color: var(--ink); background: transparent; }
+a.button.button-quiet:hover { color: var(--stamp); }
 
 .feature-band { display: grid; gap: 1rem; margin: 1.5rem 0; }
 .feature {
@@ -321,6 +323,16 @@ input, select, textarea {
 }
 .price-lines { padding-left: 1.1rem; }
 .route-map img { width: 100%; border: 1px solid var(--ink); }
+.voyage-note, .next-stop { margin: 0.35rem 0; }
+.next-stop { font-weight: 700; }
+.route-key { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; padding-left: 1.1rem; }
+.leaflet-div-icon.vehicle-icon {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none;
+  width: 28px !important;
+  height: 28px !important;
+}
 .status-pill {
   display: inline-block;
   background: var(--gold);

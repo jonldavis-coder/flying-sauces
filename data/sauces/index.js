@@ -7,6 +7,7 @@ import { ASIA_EAST } from "./asia-east.js";
 import { AMERICAS } from "./americas.js";
 import { MORE_PLATES } from "./more-plates.js";
 import { REGIONAL_EXTRA } from "./regional-extra.js";
+import { VOYAGE_STOPS } from "./voyage-stops.js";
 import { withTaste } from "./apply-notes.js";
 
 export const SAUCES = withTaste([
@@ -18,5 +19,6 @@ export const SAUCES = withTaste([
   ...ASIA_EAST,
   ...AMERICAS,
   ...MORE_PLATES,
-  ...REGIONAL_EXTRA
+  ...REGIONAL_EXTRA,
+  ...VOYAGE_STOPS
 ]);

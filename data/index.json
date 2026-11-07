@@ -1,5 +1,5 @@
 {
-  "count": 266,
+  "count": 278,
   "growingTo": 1000,
   "sauces": [
     {
@@ -120,6 +120,30 @@
       ],
       "flavor": "Garlic pounded with olive oil: sharp, thick, and pungent.",
       "search": "aïoli france western europe provence provençal garlic pounded with olive oil: sharp, thick, and pungent. in provence it is friday and feast food as much as a sauce. the garlic should be tasted. a timid aïoli is a different sauce. emulsion no chili heat seafood vegetables dipping salt cod boiled potatoes green beans grilled fish traditional provençal aïoli has no egg. the garlic is the emulsifier. the grand aïoli is a whole spread of vegetables and salt fish, not only the bowl of sauce."
+    },
+    {
+      "slug": "ecuadorian-aji",
+      "name": "Ají (Ecuador)",
+      "country": "Ecuador",
+      "countryCode": "EC",
+      "alsoCountries": [],
+      "region": "South America",
+      "baseType": "salsa",
+      "heat": "hot",
+      "diets": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "dairy-free",
+        "nut-free"
+      ],
+      "uses": [
+        "meat",
+        "rice",
+        "dipping"
+      ],
+      "flavor": "Tree tomato, hot chile, onion, and cilantro: tart, hot, and fresh.",
+      "search": "ají (ecuador) ecuador south america ecuador ecuadorian tree tomato, hot chile, onion, and cilantro: tart, hot, and fresh. a bowl sits on the table and each person spoons it on. the heat depends on the chile and on how many seeds are left in. the fruit keeps it from being only fire. salsa hot meat rice dipping hornado llapingachos potatoes grilled meat tree tomato, not roma tomato, is the fruit in the usual highland ají. peruvian ají amarillo is a different chile sauce."
     },
     {
       "slug": "aji-amarillo-sauce",
@@ -1024,6 +1048,29 @@
       "search": "chermoula morocco north africa morocco moroccan cilantro, cumin, paprika, garlic, and lemon: herbaceous and warm. coastal moroccan cooking puts it on sardines and whole fish. the paprika and cumin make it redder and warmer than a plain cilantro sauce. marinade medium marinade seafood grilling grilled sardines whole fish potatoes chermoula is a marinade and a sauce. reserve some before it touches raw fish if you want it at the table. cumin and paprika are as defining as the herbs."
     },
     {
+      "slug": "chicago-giardiniera",
+      "name": "Chicago Giardiniera",
+      "country": "United States",
+      "countryCode": "US",
+      "alsoCountries": [],
+      "region": "North America",
+      "baseType": "relish",
+      "heat": "hot",
+      "diets": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "dairy-free",
+        "nut-free"
+      ],
+      "uses": [
+        "sandwich",
+        "meat"
+      ],
+      "flavor": "Pickled vegetables in oil, with hot chile: sharp, crunchy, and hot.",
+      "search": "chicago giardiniera united states north america chicago italian-american pickled vegetables in oil, with hot chile: sharp, crunchy, and hot. the beef is salty and wet. the relish is the crunch and the heat. a mild vinegar pickle without oil will not taste like the sandwich. relish hot sandwich meat italian beef sausages crusty bread the oil is what makes the chicago sandwich relish different from a plain vinegar pickle. it is italian-american chicago cooking, hotter than a mild garden giardiniera."
+    },
+    {
       "slug": "chili-crab-sauce",
       "name": "Chili Crab Sauce",
       "country": "Singapore",
@@ -1142,6 +1189,30 @@
       "search": "chirmol guatemala mexico & central america guatemala guatemalan roasted tomato, onion, and chile: smoky, fresh, and hot. it is spooned over grilled beef. lime and salt finish it. the char on the tomato is the difference from a fully raw pico. salsa medium grilling tacos dipping meat grilled beef tortillas black beans chopped and charred, not blended smooth, is the usual texture. it is a grilled-meat salsa."
     },
     {
+      "slug": "cho-gochujang",
+      "name": "Cho-gochujang",
+      "country": "South Korea",
+      "countryCode": "KR",
+      "alsoCountries": [],
+      "region": "East Asia",
+      "baseType": "dipping-sauce",
+      "heat": "medium",
+      "diets": [
+        "vegetarian",
+        "vegan",
+        "dairy-free",
+        "nut-free"
+      ],
+      "uses": [
+        "dipping",
+        "seafood",
+        "vegetables",
+        "rice"
+      ],
+      "flavor": "Gochujang, vinegar, and sugar: hot, sour, and a little sweet.",
+      "search": "cho-gochujang south korea east asia korea korean gochujang, vinegar, and sugar: hot, sour, and a little sweet. the vinegar is the cho. it thins the paste so it can be dipped, and it cuts the sweetness. ssam and hoe tables both use versions of this mix. dipping sauce medium dipping seafood vegetables rice raw fish cucumber lettuce wraps rice the ferment already happened in the gochujang. this mix does not replace those months. cho means vinegar. the sour note is the point of this version."
+    },
+    {
       "slug": "chocolate-gravy",
       "name": "Chocolate Gravy",
       "country": "United States",
@@ -1203,6 +1274,26 @@
       ],
       "flavor": "Cabbage, green tomato, vinegar, and mustard: sharp, sweet, and crunchy.",
       "search": "chow-chow united states north america appalachia and the upland south appalachian and southern cabbage, green tomato, vinegar, and mustard: sharp, sweet, and crunchy. it was a way to keep the last green tomatoes and cabbage. it goes with beans, field peas, and cold meat. turmeric makes it yellow. mustard makes it sharp. relish mild sandwich meat vegetables beans ham biscuits cooked greens green tomato and cabbage are the usual body. this version is refrigerated. it is not a shelf-stable canning formula."
+    },
+    {
+      "slug": "cincinnati-chili-sauce",
+      "name": "Cincinnati Chili Sauce",
+      "country": "United States",
+      "countryCode": "US",
+      "alsoCountries": [],
+      "region": "North America",
+      "baseType": "chili-paste",
+      "heat": "mild",
+      "diets": [
+        "dairy-free",
+        "nut-free"
+      ],
+      "uses": [
+        "pasta",
+        "meat"
+      ],
+      "flavor": "Fine beef, cinnamon, cocoa, and chile: savory, sweet-spiced, and thin.",
+      "search": "cincinnati chili sauce united states north america cincinnati, ohio greek and macedonian american fine beef, cinnamon, cocoa, and chile: savory, sweet-spiced, and thin. a two-way is spaghetti and chili. a three-way adds cheese. the sauce is thin because it has to coat noodles. cinnamon, allspice or clove, and a little cocoa are the spice cabinet of those parlors. chili paste mild pasta meat spaghetti cheddar oyster crackers onion the 1922 empress account is the usual origin story of the parlor style. the sauce is greek and macedonian american cooking. it is not german heritage chili."
     },
     {
       "slug": "cocktail-sauce",
@@ -1269,6 +1360,29 @@
       ],
       "flavor": "Mayonnaise, ketchup, and spice: creamy, sweet, and peppery.",
       "search": "comeback sauce united states north america jackson, mississippi mississippi mayonnaise, ketchup, and spice: creamy, sweet, and peppery. it is thicker and spicier than plain burger sauce. paprika, garlic, and black pepper are usual. each restaurant had a ratio. condiment mild dipping sandwich seafood fries onion rings fried shrimp jackson restaurants made it a local standard in the twentieth century. the name is about coming back for the sauce."
+    },
+    {
+      "slug": "corned-beef-mustard-sauce",
+      "name": "Corned Beef Mustard Sauce",
+      "country": "Ireland",
+      "countryCode": "IE",
+      "alsoCountries": [
+        "US"
+      ],
+      "region": "Northern Europe",
+      "baseType": "condiment",
+      "heat": "mild",
+      "diets": [
+        "vegetarian",
+        "gluten-free",
+        "nut-free"
+      ],
+      "uses": [
+        "meat",
+        "sandwich"
+      ],
+      "flavor": "Mustard, vinegar, and a little sugar: sharp, tangy, and warm.",
+      "search": "corned beef mustard sauce ireland northern europe irish and irish-american tables irish and irish-american mustard, vinegar, and a little sugar: sharp, tangy, and warm. the beef is salty and fatty. mustard and vinegar cut that salt. sugar keeps the vinegar from tasting only sour. it is a table sauce, mixed and warmed, not a long gravy. condiment mild meat sandwich corned beef cabbage potatoes rye bread corned beef and cabbage is the irish-american plate. boiled bacon is the older irish one. the heat is mustard, not chile."
     },
     {
       "slug": "coronation-dressing",
@@ -1356,14 +1470,35 @@
       "search": "creole sauce united states north america louisiana louisiana creole tomato, onion, celery, and bell pepper: savory, sweet, and lightly herbal. shrimp creole is the dish, eaten with rice. the vegetables should cook until soft before the tomato goes in. cayenne heats it. the sauce should taste of pepper and celery, not only tomato. tomato sauce mild seafood rice stew shrimp rice onion, celery, and green pepper are the louisiana aromatic trio in this sauce. it is tomato-based, unlike a brown étouffée."
     },
     {
-      "slug": "cuban-mojo",
-      "name": "Cuban Mojo",
+      "slug": "cuban-enchilado",
+      "name": "Cuban Enchilado Sauce",
       "country": "Cuba",
       "countryCode": "CU",
       "alsoCountries": [],
       "region": "Caribbean",
-      "baseType": "marinade",
+      "baseType": "tomato-sauce",
       "heat": "mild",
+      "diets": [
+        "gluten-free",
+        "dairy-free",
+        "nut-free"
+      ],
+      "uses": [
+        "seafood",
+        "rice"
+      ],
+      "flavor": "Tomato, cumin, garlic, and wine, with shrimp: savory, brick-red, and mild.",
+      "search": "cuban enchilado sauce cuba caribbean cuba cuban tomato, cumin, garlic, and wine, with shrimp: savory, brick-red, and mild. it is weeknight and restaurant food, served with white rice so the sauce has somewhere to go. green pepper and onion are the same sofrito pair that starts many cuban pots. tomato sauce mild seafood rice shrimp white rice enchilado in cuba is a shrimp and tomato sauce, not a mexican enchilada. cumin, not a dried chile paste, is the spice that marks the pot."
+    },
+    {
+      "slug": "cuban-salsa-criolla",
+      "name": "Cuban Salsa Criolla",
+      "country": "Cuba",
+      "countryCode": "CU",
+      "alsoCountries": [],
+      "region": "Caribbean",
+      "baseType": "salsa",
+      "heat": "none",
       "diets": [
         "vegetarian",
         "vegan",
@@ -1372,13 +1507,36 @@
         "nut-free"
       ],
       "uses": [
-        "marinade",
+        "seafood",
         "meat",
-        "grilling",
         "dipping"
       ],
-      "flavor": "Sour orange, garlic, cumin, and oil: sharp, garlicky, and savory.",
-      "search": "cuban mojo cuba caribbean cuba cuban sour orange, garlic, cumin, and oil: sharp, garlicky, and savory. lechón and christmas pork in cuban cooking are tied to mojo. the boiled yuca on the table gets the same sauce, often heated so the garlic softens. marinade mild marinade meat grilling dipping roast pork boiled yuca grilled onions mojo the sauce and mojito the drink share a word history around moisture and sauce, and they are not the same recipe. sour orange is the acid that makes the marinade taste right."
+      "flavor": "Raw onion, garlic, and sour orange: sharp, crunchy, and bright.",
+      "search": "cuban salsa criolla cuba caribbean cuba cuban raw onion, garlic, and sour orange: sharp, crunchy, and bright. fish fries and pork roasts in cuba put a bowl of this on the table so each person can add the acid. it is eaten the day it is made. onion that sits for days turns harsh and watery. salsa no chili heat seafood meat dipping fried fish roast pork boiled yuca the name is shared with other countries. the cuban sauce is onion, acid, and oil. it is raw. mojo criollo is the cooked or warmed garlic sauce."
+    },
+    {
+      "slug": "cuban-sofrito",
+      "name": "Cuban Sofrito",
+      "country": "Cuba",
+      "countryCode": "CU",
+      "alsoCountries": [],
+      "region": "Caribbean",
+      "baseType": "condiment",
+      "heat": "none",
+      "diets": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "dairy-free",
+        "nut-free"
+      ],
+      "uses": [
+        "stew",
+        "rice",
+        "meat"
+      ],
+      "flavor": "Onion, green pepper, garlic, and cumin, fried in oil: sweet and savory.",
+      "search": "cuban sofrito cuba caribbean cuba cuban onion, green pepper, garlic, and cumin, fried in oil: sweet and savory. the sofrito is cooked at the start of a bean pot or a stew so the oil takes up the vegetables. it is a cooking sauce, not usually a cold table relish. that job belongs to mojo or to salsa criolla. condiment no chili heat stew rice meat black beans rice stews shredded beef cuban sofrito is cooked. puerto rican sofrito is a different recipe, often raw. culantro is not the herb that defines this version."
     },
     {
       "slug": "raita",
@@ -2106,6 +2264,25 @@
       "search": "guasacaca venezuela south america venezuela venezuelan avocado, vinegar, and bell pepper: bright, herby, and loose. it is spooned over parrilla meats. the vinegar is why it tastes more like a sauce than a thick dip. some versions are mostly herb and pepper with only a little avocado. salsa mild grilling dipping meat parrilla arepas yuca it is an avocado sauce and not the same balance as guacamole. vinegar is the sharp edge."
     },
     {
+      "slug": "guinness-gravy",
+      "name": "Guinness Gravy",
+      "country": "Ireland",
+      "countryCode": "IE",
+      "alsoCountries": [],
+      "region": "Northern Europe",
+      "baseType": "gravy",
+      "heat": "none",
+      "diets": [
+        "nut-free"
+      ],
+      "uses": [
+        "meat",
+        "roast"
+      ],
+      "flavor": "Onion, stout, and stock: bitter, malty, and savory.",
+      "search": "guinness gravy ireland northern europe ireland irish onion, stout, and stock: bitter, malty, and savory. a roast or a pan of sausages leaves fat and browned bits. the stout replaces some of the liquid a french gravy would take from wine. it is pub food, served in a jug, not a glazed restaurant sauce. gravy no chili heat meat roast roast beef sausages mashed potatoes pie the brewery date is 1759. the gravy has no matching founding date. stout is bitter. sugar is not what makes this gravy taste like itself."
+    },
+    {
       "slug": "haitian-epis",
       "name": "Haitian Epis",
       "country": "Haiti",
@@ -2407,6 +2584,25 @@
       ],
       "flavor": "Chickpea, tahini, lemon, and garlic: creamy, nutty, and tart.",
       "search": "hummus lebanon middle east the levant levantine chickpea, tahini, lemon, and garlic: creamy, nutty, and tart. it is breakfast, mezze, and a sandwich spread. olive oil and paprika or whole chickpeas on top are presentation, not a different recipe. the map counts it in each levantine country listed because it is a shared staple. dipping sauce no chili heat dipping sandwich vegetables warm pita raw vegetables falafel sandwiches the dish is shared across the levant. pinning it to one capital would be inaccurate. ice water, added while blending, makes the texture lighter."
+    },
+    {
+      "slug": "irish-whiskey-sauce",
+      "name": "Irish Whiskey Sauce",
+      "country": "Ireland",
+      "countryCode": "IE",
+      "alsoCountries": [],
+      "region": "Northern Europe",
+      "baseType": "pan-sauce",
+      "heat": "none",
+      "diets": [
+        "gluten-free",
+        "nut-free"
+      ],
+      "uses": [
+        "meat"
+      ],
+      "flavor": "Whiskey, cream, and shallot: sharp, rich, and a little sweet.",
+      "search": "irish whiskey sauce ireland northern europe ireland irish whiskey, cream, and shallot: sharp, rich, and a little sweet. it is cooked in the same pan as a steak so the browned bits dissolve into the cream. the alcohol has to cook off. what remains is grain and oak, not a spoon of raw spirit. pan sauce no chili heat meat steak mushrooms potatoes this is a restaurant and home sauce, not an ancient recipe with a known author. the cream is cooked with the whiskey. it is not whipped cream on a pudding."
     },
     {
       "slug": "italian-salsa-verde",
@@ -3052,6 +3248,27 @@
       "search": "memphis barbecue sauce united states north america memphis memphis tomato and vinegar, thinner than kansas city: tangy and mildly sweet. ribs may be served dry, with sauce on the side. when the sauce is used, it should not be a candy glaze. vinegar keeps it tangy. barbecue sauce medium barbecue meat pork ribs coleslaw memphis sauce is usually thinner and more vinegary than kansas city sauce. dry rub is the other local tradition."
     },
     {
+      "slug": "michigan-olive-burger-sauce",
+      "name": "Michigan Olive Burger Sauce",
+      "country": "United States",
+      "countryCode": "US",
+      "alsoCountries": [],
+      "region": "North America",
+      "baseType": "condiment",
+      "heat": "none",
+      "diets": [
+        "vegetarian",
+        "gluten-free",
+        "dairy-free",
+        "nut-free"
+      ],
+      "uses": [
+        "sandwich"
+      ],
+      "flavor": "Mayonnaise and green olives: salty, briny, and creamy.",
+      "search": "michigan olive burger sauce united states north america western michigan american, michigan mayonnaise and green olives: salty, briny, and creamy. the burger is plain and grilled. the sauce is cold, spooned on after the meat is cooked. olive brine is why it tastes sharper than mayonnaise alone. condiment no chili heat sandwich hamburger plain bun the olive burger is a western michigan sandwich, not a national chain sauce. the olives stay in pieces. a puree is closer to a tapenade."
+    },
+    {
       "slug": "mint-sauce",
       "name": "Mint Sauce",
       "country": "United Kingdom",
@@ -3143,6 +3360,31 @@
       ],
       "flavor": "Palm fruit, onion, and chile: rich, earthy, and savory.",
       "search": "moambe sauce democratic republic of the congo central africa congo basin congolese palm fruit, onion, and chile: rich, earthy, and savory. it is celebration and home food, served with rice, plantain, or cassava. the orange-red color comes from the palm fruit. nut sauce medium stew rice meat chicken rice fried plantain the color comes from palm fruit, not from tomato alone. use a prepared palm base. this page is not a guide to processing raw palm fruit."
+    },
+    {
+      "slug": "cuban-mojo",
+      "name": "Mojo Criollo",
+      "country": "Cuba",
+      "countryCode": "CU",
+      "alsoCountries": [],
+      "region": "Caribbean",
+      "baseType": "marinade",
+      "heat": "mild",
+      "diets": [
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "dairy-free",
+        "nut-free"
+      ],
+      "uses": [
+        "marinade",
+        "meat",
+        "grilling",
+        "dipping"
+      ],
+      "flavor": "Sour orange, garlic, cumin, and oil: sharp, garlicky, and savory.",
+      "search": "mojo criollo cuba caribbean cuba cuban sour orange, garlic, cumin, and oil: sharp, garlicky, and savory. lechón and christmas pork in cuban cooking are tied to mojo. the boiled yuca on the table gets the same sauce, often heated so the garlic softens. marinade mild marinade meat grilling dipping roast pork boiled yuca grilled onions mojo the sauce and mojito the drink share a word history around moisture and sauce, and they are not the same recipe. sour orange is the acid that makes the marinade taste right."
     },
     {
       "slug": "mojo-rojo",
@@ -3629,6 +3871,29 @@
       ],
       "flavor": "Red curry paste, peanut, and a little coconut: rich, salty, and mildly sweet.",
       "search": "panang curry thailand southeast asia thailand thai red curry paste, peanut, and a little coconut: rich, salty, and mildly sweet. it is eaten with rice. kaffir lime leaf, when you have it, is the citrus perfume. the sauce should cling to the meat. curry sauce medium curry rice jasmine rice beef or chicken lime leaf panang is thicker than a standard red curry. lime leaf is the fresh finish when you can get it."
+    },
+    {
+      "slug": "parsley-sauce",
+      "name": "Parsley Sauce",
+      "country": "Ireland",
+      "countryCode": "IE",
+      "alsoCountries": [
+        "GB"
+      ],
+      "region": "Northern Europe",
+      "baseType": "gravy",
+      "heat": "none",
+      "diets": [
+        "vegetarian",
+        "nut-free"
+      ],
+      "uses": [
+        "meat",
+        "seafood",
+        "vegetables"
+      ],
+      "flavor": "Milk, butter, and a heavy handful of parsley: mild, green, and saucy.",
+      "search": "parsley sauce ireland northern europe ireland irish milk, butter, and a heavy handful of parsley: mild, green, and saucy. the bacon is simmered, not roasted, so the table needs a hot sauce. parsley is the herb that is cheap and green when the joint is pale. a thin pour is the point. a stiff paste will not coat the slices. gravy no chili heat meat seafood vegetables boiled bacon cabbage potatoes poached fish boiled bacon, not corned beef, is the older irish joint for this sauce. the parsley is the flavor. a white sauce without it is a different sauce."
     },
     {
       "slug": "pebre",

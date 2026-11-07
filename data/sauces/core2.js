@@ -603,7 +603,7 @@ export const MORE = [
   }),
   sauce({
     slug: "cuban-mojo",
-    name: "Cuban Mojo",
+    name: "Mojo Criollo",
     country: "Cuba",
     countryCode: "CU",
     region: "Caribbean",
@@ -615,7 +615,7 @@ export const MORE = [
     allergens: [],
     uses: ["marinade", "meat", "grilling", "dipping"],
     flavor: "Sour orange, garlic, cumin, and oil: sharp, garlicky, and savory.",
-    history: "Cuban mojo is a garlic and sour-orange sauce used on yuca and as the marinade for roast pork. Sour orange, naranja agria, is the traditional acid. Lime and orange together are the usual stand-in when sour oranges are scarce. It is not the Spanish word for a gravy in general, and it is not Cuban mojito the drink.",
+    history: "Mojo criollo is the Cuban garlic and sour-orange sauce, also called Cuban mojo. It goes on yuca and is the marinade for roast pork. Sour orange, naranja agria, is the traditional acid. Lime and orange together are the usual stand-in when sour oranges are scarce. It is not the Spanish word for a gravy in general, and it is not the mojito drink.",
     background: "Lechón and Christmas pork in Cuban cooking are tied to mojo. The boiled yuca on the table gets the same sauce, often heated so the garlic softens.",
     method: "Garlic and cumin are pounded, mixed with sour orange juice, and combined with oil. A short warm-up blooms the garlic for the table version.",
     served: "Marinate pork in it, and spoon more over boiled yuca.",

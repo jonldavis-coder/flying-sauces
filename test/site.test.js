@@ -11,6 +11,9 @@ import { isSupabaseConfigured } from "../assets/js/adapter.js";
 import { boxSetQuote, priceLabel } from "../assets/js/lib/shop.js";
 import { FLAGSHIP_BOOKS } from "../data/flagship-books.js";
 import { SHOP } from "../data/shop.js";
+import { PLACES } from "../data/places.js";
+import { SETTLEMENTS } from "../data/settlement.js";
+import { JOURNEYS } from "../data/journeys.js";
 
 const root = path.resolve(import.meta.dirname, "..");
 
@@ -134,4 +137,41 @@ test("pages, map, books, and taste sections were generated", () => {
   const css = fs.readFileSync(path.join(root, "assets/css/styles.css"), "utf8");
   assert.match(css, /@media print/);
   assert.match(css, /\.ad-slot/);
+  assert.match(home, /The sauces are the stops/);
+  assert.match(home, /Who settled the flavor/);
+  const mojo = fs.readFileSync(path.join(root, "sauces/cuban-mojo/index.html"), "utf8");
+  assert.match(mojo, /Arriving in Cuba/);
+  assert.match(mojo, /Next stop/);
+  assert.match(mojo, /Mojo Criollo/);
+  assert.match(mojo, /Why it tastes this way/);
+  assert.match(mojo, /Authentic touch/);
+  const map = fs.readFileSync(path.join(root, "map/index.html"), "utf8");
+  assert.match(map, /The route map/);
+  assert.match(map, /balloon, plane, train, or boat/i);
+  const journey = fs.readFileSync(path.join(root, "journeys/silk-road-by-train/index.html"), "utf8");
+  assert.match(journey, /Train/);
+  const louisiana = fs.readFileSync(path.join(root, "places/settlement/louisiana/index.html"), "utf8");
+  assert.match(louisiana, /enslaved/i);
+  const mountains = fs.readFileSync(path.join(root, "places/settlement/appalachia/index.html"), "utf8");
+  assert.match(mountains, /does not assign/);
+  const ireland = fs.readFileSync(path.join(root, "places/ireland/index.html"), "utf8");
+  assert.match(ireland, /Parsley Sauce/);
+  const known = new Set(SAUCES.map((sauce) => sauce.slug));
+  for (const journey of JOURNEYS) {
+    for (const slug of journey.stops) assert.equal(known.has(slug), true, slug);
+  }
+  for (const chapter of SETTLEMENTS) {
+    for (const slug of chapter.sauces) assert.equal(known.has(slug), true, slug);
+  }
+  for (const place of PLACES) {
+    assert.ok(SAUCES.filter((sauce) => place.match(sauce)).length >= 3, place.slug);
+  }
+  let missingTaste = 0;
+  for (const sauce of SAUCES) {
+    const html = fs.readFileSync(path.join(root, "sauces", sauce.slug, "index.html"), "utf8");
+    if (!html.includes("Arriving in") || !html.includes("Why it tastes this way") || !html.includes("Authentic touch") || !html.includes("Next stop")) {
+      missingTaste += 1;
+    }
+  }
+  assert.equal(missingTaste, 0);
 });

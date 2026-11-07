@@ -24,6 +24,9 @@ import { slugify } from "../assets/js/lib/slug.js";
 import { faviconSvg, heroSvg, writeIllustration } from "./art.mjs";
 import { bookCoverSvg, boxSetCoverSvg, routeMapSvg } from "./covers.mjs";
 import { boxSetQuote, notifyHref, priceLabel } from "../assets/js/lib/shop.js";
+import { JOURNEYS, VEHICLES, journeyFor, nextOnJourney } from "../data/journeys.js";
+import { PLACES } from "../data/places.js";
+import { SETTLEMENTS } from "../data/settlement.js";
 import { adSlot, page } from "./layout.mjs";
 
 const BOOKS = [...FLAGSHIP_BOOKS, ...USE_BOOKS];
@@ -39,7 +42,7 @@ function write(rel, contents) {
 }
 
 function resetGenerated() {
-  for (const dir of ["sauces", "explore", "books", "map", "learn", "about", "privacy", "terms", "affiliate", "guidelines", "assets/images/sauces"]) {
+  for (const dir of ["sauces", "explore", "books", "map", "learn", "about", "privacy", "terms", "affiliate", "guidelines", "journeys", "places", "shop", "assets/images/sauces"]) {
     fs.rmSync(path.join(root, dir), { recursive: true, force: true });
   }
 }
@@ -287,10 +290,44 @@ function breadcrumb(sauce) {
   };
 }
 
-function saucePage(sauce, count) {
+function arrivalPlace(sauce) {
+  return sauce.locale || sauce.country;
+}
+
+function nextStopFor(sauce, known) {
+  const onRoute = nextOnJourney(sauce.slug, known);
+  if (onRoute) {
+    const next = known.get(onRoute.slug);
+    if (next) return { sauce: next, journey: onRoute.journey };
+  }
+  const others = [...known.values()].filter((item) => item.slug !== sauce.slug);
+  const sameCountry = others.filter((item) => item.countryCode === sauce.countryCode);
+  const sameRegion = others.filter((item) => item.region === sauce.region);
+  const list = (sameCountry.length ? sameCountry : sameRegion.length ? sameRegion : others).sort((a, b) => a.slug.localeCompare(b.slug));
+  if (!list.length) return null;
+  const after = list.find((item) => item.slug > sauce.slug);
+  return { sauce: after || list[0], journey: null };
+}
+
+function saucePage(sauce, count, known) {
   const description = `${sauce.name}: ${sauce.flavor} A ${sauce.country} recipe with origin, method, and field notes.`;
   const shared = (sauce.alsoCountries || []).map((code) => COUNTRY_NAMES[code]).filter(Boolean);
   const originExtra = shared.length ? `<p>Also cooked as a staple in ${escapeHtml(shared.join(", "))}.</p>` : "";
+  const journey = journeyFor(sauce.slug);
+  const next = nextStopFor(sauce, known);
+  const vehicle = journey ? VEHICLES[journey.vehicle] || journey.vehicle : "";
+  const placeLinks = PLACES.filter((place) => place.match(sauce))
+    .map((place) => `<a href="places/${place.slug}/">${escapeHtml(place.title)}</a>`)
+    .join(" · ");
+  const chapters = SETTLEMENTS.filter((chapter) => chapter.sauces.includes(sauce.slug))
+    .map((chapter) => `<p><a href="places/settlement/${chapter.slug}/">Who settled the flavor: ${escapeHtml(chapter.title)}</a></p>`)
+    .join("");
+  const nextHtml = next
+    ? `<p class="next-stop">Next stop: <a href="sauces/${next.sauce.slug}/">${escapeHtml(next.sauce.name)}</a> · ${escapeHtml(next.sauce.country)}${next.journey ? ` · ${escapeHtml(next.journey.title)}` : ""}</p>`
+    : "";
+  const routeHtml = journey
+    ? `<p class="voyage-note">This stop is on <a href="journeys/${journey.slug}/">${escapeHtml(journey.title)}</a>, traveled by ${escapeHtml(vehicle.toLowerCase())}.</p>`
+    : `<p class="voyage-note">The next field stop is a nearby sauce on the same map.</p>`;
   return page({
     title: `${sauce.name} · Flying Sauces`,
     description,
@@ -303,8 +340,11 @@ function saucePage(sauce, count) {
     main: `<article id="sauce-root" class="wrap sauce-layout" data-slug="${escapeHtml(sauce.slug)}">
       <div>
         <p class="print-only print-brand">Flying Sauces of the World</p>
-        <p class="eyebrow">${escapeHtml(sauce.country)} · ${escapeHtml(sauce.region)}</p>
+        <p class="eyebrow">Arriving in ${escapeHtml(arrivalPlace(sauce))}</p>
+        <p class="meta">${escapeHtml(sauce.country)} · ${escapeHtml(sauce.region)}</p>
         <h1 class="sauce-title">${escapeHtml(sauce.name)}</h1>
+        ${routeHtml}
+        ${nextHtml}
         ${sauce.pronunciation ? `<p class="meta">Pronounced ${escapeHtml(sauce.pronunciation)}</p>` : ""}
         <p class="dek">${escapeHtml(sauce.flavor)}</p>
         <p class="meta recipe-meta">${formatMinutes(sauce.prepMinutes)} prep · ${formatMinutes(sauce.cookMinutes)} cook · Serves ${sauce.servings} · ${escapeHtml(sauce.yieldText)}</p>
@@ -371,6 +411,8 @@ function saucePage(sauce, count) {
             <dt>Heat</dt><dd>${escapeHtml(labelOf(HEATS, sauce.heat))}</dd>
           </dl>
           ${originExtra}
+          ${placeLinks ? `<p>Place: ${placeLinks}</p>` : ""}
+          ${chapters}
           <p><a href="map/?country=${escapeHtml(sauce.countryCode)}">See this country on the map</a></p>
         </div>
       </aside>
@@ -489,18 +531,35 @@ write("index.html", page({
   main: `<div class="wrap">
       <section class="hero">
         <div>
-          <p class="eyebrow">A field guide · Issue 01</p>
-          <h1>Sauces, mapped.</h1>
-          <p class="lede">Every entry is a real sauce with a full recipe, an origin, and field notes. This issue holds ${count} sauces. The shelf is growing to 1,000.</p>
-          <p class="button-row"><a class="button" href="map/">Open the map</a> <a class="button button-quiet" href="books/">Recipe books</a></p>
+          <p class="eyebrow">A voyage · Issue 01</p>
+          <h1>The sauces are the stops.</h1>
+          <p class="lede">Come aboard. This guide travels by hot air balloon, plane, train, and boat. Every stop is a real sauce: a full recipe, and the history that explains the taste. This issue holds ${count} sauces. The route is growing to 1,000.</p>
+          <p class="button-row"><a class="button" href="map/">Open the route map</a> <a class="button button-quiet" href="journeys/">See the journeys</a></p>
         </div>
         <div class="hero-media">
           <img src="assets/images/hero.svg" alt="Illustration of a paper plane crossing a globe above jars of sauce" width="800" height="520">
         </div>
       </section>
       ${adSlot("home_after_hero")}
+      <section aria-label="Journeys">
+        <h2>Journeys</h2>
+        <p class="lede">Five routes through sauces that are already in this issue. A balloon, a plane, a train, or a boat marks the leg. The line is a reading route, not a claim that anyone traveled it in that order.</p>
+        <div class="explore-grid">
+          ${JOURNEYS.map((journey) => `<a class="explore-card" href="journeys/${journey.slug}/"><p class="eyebrow">${escapeHtml(VEHICLES[journey.vehicle])}</p><h2>${escapeHtml(journey.title)}</h2><p>${escapeHtml(journey.dek)}</p></a>`).join("\n")}
+        </div>
+      </section>
       <section class="feature-band" aria-label="Regional features">
         ${features}
+      </section>
+      <section aria-label="Places">
+        <h2>Places on the route</h2>
+        <p><a href="places/who-settled-the-flavor/">Who settled the flavor</a> follows settlement and immigration in the United States, including slavery where that is the history.</p>
+        <div class="explore-grid">
+          ${PLACES.map((place) => {
+            const n = sauces.filter((sauce) => place.match(sauce)).length;
+            return `<a class="explore-card" href="places/${place.slug}/"><p class="eyebrow">${n} sauces</p><h2>${escapeHtml(place.title)}</h2><p>${escapeHtml(place.dek)}</p></a>`;
+          }).join("\n")}
+        </div>
       </section>
       ${adSlot("home_mid")}
       <h2>Browse the shelf</h2>
@@ -514,8 +573,8 @@ write("index.html", page({
 }));
 
 write("map/index.html", page({
-  title: "Map · Flying Sauces",
-  description: "An interactive world map of sauce origins. Choose a country to list its sauces, and filter by region, type, heat, use, and diet.",
+  title: "Route map · Flying Sauces",
+  description: "A route map of sauce origins. Journey legs are drawn by balloon, plane, train, and boat. Choose a country to list its sauces.",
   current: "map",
   pageName: "map",
   sauceCount: count,
@@ -525,8 +584,11 @@ write("map/index.html", page({
   main: `<div class="wrap">
       ${adSlot("map_top")}
       <p class="eyebrow">Atlas</p>
-      <h1>Where the sauces come from</h1>
-      <p class="lede">Countries are shaded by how many field-guide sauces name them. A sauce that is a shared staple is counted in each country listed on its page. Pins mark places too small to see on this map. The list under the map works without JavaScript.</p>
+      <h1>The route map</h1>
+      <p class="lede">Countries are shaded by how many field-guide sauces name them. The gold lines are curated journeys. A balloon, plane, train, or boat marks each leg. A shared staple is counted in each country listed on its page. Pins mark places too small to see on this map. The list under the map works without JavaScript.</p>
+      <ul class="route-key">
+        ${JOURNEYS.map((journey) => `<li><a href="journeys/${journey.slug}/">${escapeHtml(journey.title)}</a> · ${escapeHtml(VEHICLES[journey.vehicle])}</li>`).join("")}
+      </ul>
       ${filterForm(countryOptions)}
       <p id="map-status" class="results-count" role="status">${count} sauces for all countries.</p>
       <div id="world-map" role="application" aria-label="World map of sauce origins"></div>
@@ -551,6 +613,7 @@ write("explore/index.html", page({
   main: `<div class="wrap">
       <p class="eyebrow">Explore</p>
       <h1>Three ways through the shelf</h1>
+      <p class="lede"><a href="places/">Places</a> on this voyage include the United States, Ireland, England, Africa, India, East Asia, Cuba, Mexico, Spain, and South America. <a href="journeys/">Journeys</a> string those sauces into routes.</p>
       <h2>By region</h2>
       <div class="explore-grid">${exploreLinks(REGIONS, {
         href: (key) => `explore/region/${slugify(key)}/`,
@@ -607,7 +670,148 @@ for (const [id, label] of USES) {
   }));
 }
 
-for (const sauce of sauces) write(`sauces/${sauce.slug}/index.html`, saucePage(sauce, count));
+const knownSauces = new Map(sauces.map((sauce) => [sauce.slug, sauce]));
+for (const sauce of sauces) write(`sauces/${sauce.slug}/index.html`, saucePage(sauce, count, knownSauces));
+
+const placeCards = (list) => list.map((sauce) => `<li><a href="sauces/${sauce.slug}/">${escapeHtml(sauce.name)}</a> · ${escapeHtml(sauce.country)} · ${escapeHtml(sauce.locale || sauce.region)}</li>`).join("");
+
+write("places/index.html", page({
+  title: "Places · Flying Sauces",
+  description: "Region features for the United States, Ireland, England, Africa, India, East Asia, Cuba, Mexico, Spain, and South America.",
+  current: "explore",
+  pageName: "explore",
+  sauceCount: count,
+  canonical: `${ORIGIN}/places/`,
+  main: `<div class="wrap">
+      <p class="eyebrow">Places</p>
+      <h1>Where the route stops</h1>
+      <p class="lede">Each place lists the sauces in this issue that belong to it. <a href="places/who-settled-the-flavor/">Who settled the flavor</a> is the United States settlement series.</p>
+      <div class="explore-grid">
+        ${PLACES.map((place) => {
+          const n = sauces.filter((sauce) => place.match(sauce)).length;
+          return `<a class="explore-card" href="places/${place.slug}/"><p class="eyebrow">${n} sauces</p><h2>${escapeHtml(place.title)}</h2><p>${escapeHtml(place.dek)}</p></a>`;
+        }).join("\n")}
+      </div>
+    </div>`
+}));
+
+for (const place of PLACES) {
+  const members = sauces.filter((sauce) => place.match(sauce)).sort((a, b) => a.name.localeCompare(b.name));
+  if (members.length < 3) throw new Error(`Place ${place.slug} has only ${members.length} sauces`);
+  write(`places/${place.slug}/index.html`, page({
+    title: `${place.title} · Flying Sauces`,
+    description: `${members.length} sauces from ${place.title}. ${place.dek}`,
+    current: "explore",
+    pageName: "explore",
+    sauceCount: count,
+    canonical: `${ORIGIN}/places/${place.slug}/`,
+    main: `<article class="wrap prose">
+        <p class="eyebrow">Place</p>
+        <h1>${escapeHtml(place.title)}</h1>
+        <p class="dek">${escapeHtml(place.dek)}</p>
+        <p>${members.length} sauces in this issue.</p>
+        <ul>${placeCards(members)}</ul>
+        <p><a href="map/">See them on the route map</a></p>
+      </article>`
+  }));
+}
+
+write("places/who-settled-the-flavor/index.html", page({
+  title: "Who Settled the Flavor · Flying Sauces",
+  description: "How settlement and immigration shaped sauces in the United States, from Louisiana and New England to the Upper Midwest.",
+  current: "explore",
+  pageName: "explore",
+  sauceCount: count,
+  canonical: `${ORIGIN}/places/who-settled-the-flavor/`,
+  main: `<article class="wrap prose">
+      <p class="eyebrow">United States</p>
+      <h1>Who settled the flavor</h1>
+      <p class="dek">Eight chapters on settlement and immigration. Enslaved people are named where their labor and skill shaped the sauce. Nothing here is a single people’s exclusive recipe, and no sauce was invented to fill a gap.</p>
+      <div class="explore-grid">
+        ${SETTLEMENTS.map((chapter) => `<a class="explore-card" href="places/settlement/${chapter.slug}/"><p class="eyebrow">${chapter.sauces.length} sauces</p><h2>${escapeHtml(chapter.title)}</h2><p>${escapeHtml(chapter.dek)}</p></a>`).join("\n")}
+      </div>
+    </article>`
+}));
+
+for (const chapter of SETTLEMENTS) {
+  const members = chapter.sauces.map((slug) => knownSauces.get(slug));
+  if (members.some((sauce) => !sauce)) {
+    throw new Error(`Settlement ${chapter.slug} is missing ${chapter.sauces.filter((slug) => !knownSauces.has(slug)).join(", ")}`);
+  }
+  write(`places/settlement/${chapter.slug}/index.html`, page({
+    title: `${chapter.title} · Who Settled the Flavor`,
+    description: chapter.dek,
+    current: "explore",
+    pageName: "explore",
+    sauceCount: count,
+    canonical: `${ORIGIN}/places/settlement/${chapter.slug}/`,
+    main: `<article class="wrap prose">
+        <p class="eyebrow">Who settled the flavor</p>
+        <h1>${escapeHtml(chapter.title)}</h1>
+        <p class="dek">${escapeHtml(chapter.dek)}</p>
+        ${chapter.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+        <h2>Sauces in this chapter</h2>
+        <ul>${placeCards(members)}</ul>
+        <p><a href="places/who-settled-the-flavor/">All eight chapters</a></p>
+      </article>`
+  }));
+}
+
+write("journeys/index.html", page({
+  title: "Journeys · Flying Sauces",
+  description: "Curated sauce routes by hot air balloon, plane, train, and boat.",
+  current: "journeys",
+  pageName: "explore",
+  sauceCount: count,
+  canonical: `${ORIGIN}/journeys/`,
+  main: `<div class="wrap">
+      <p class="eyebrow">Journeys</p>
+      <h1>Balloon, plane, train, and boat</h1>
+      <p class="lede">Each journey is a reading order through sauces in this issue. The vehicle is the one that fits the distance. The line on the map is a schematic leg, not a GPS track and not a claim about a historical passenger.</p>
+      <div class="explore-grid">
+        ${JOURNEYS.map((journey) => `<a class="explore-card" href="journeys/${journey.slug}/"><p class="eyebrow">${escapeHtml(VEHICLES[journey.vehicle])} · ${journey.stops.length} stops</p><h2>${escapeHtml(journey.title)}</h2><p>${escapeHtml(journey.dek)}</p></a>`).join("\n")}
+      </div>
+    </div>`
+}));
+
+for (const journey of JOURNEYS) {
+  if (journey.route.length !== journey.stops.length) {
+    throw new Error(`Journey ${journey.slug} has ${journey.stops.length} stops and ${journey.route.length} points`);
+  }
+  const members = journey.stops.map((slug) => knownSauces.get(slug));
+  if (members.some((sauce) => !sauce)) {
+    throw new Error(`Journey ${journey.slug} is missing ${journey.stops.filter((slug) => !knownSauces.has(slug)).join(", ")}`);
+  }
+  const points = members.map((sauce, index) => ({
+    lat: journey.route[index][0],
+    lng: journey.route[index][1],
+    label: shortPlace(sauce)
+  }));
+  write(`assets/images/journeys/${journey.slug}.svg`, routeMapSvg(points));
+  write(`journeys/${journey.slug}/index.html`, page({
+    title: `${journey.title} · Flying Sauces`,
+    description: journey.dek,
+    current: "journeys",
+    pageName: "explore",
+    sauceCount: count,
+    canonical: `${ORIGIN}/journeys/${journey.slug}/`,
+    main: `<article class="wrap">
+        <p class="eyebrow">${escapeHtml(VEHICLES[journey.vehicle])}</p>
+        <h1>${escapeHtml(journey.title)}</h1>
+        <p class="dek">${escapeHtml(journey.dek)}</p>
+        ${journey.intro.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+        <figure class="route-map">
+          <img src="assets/images/journeys/${journey.slug}.svg" alt="Schematic route for ${escapeHtml(journey.title)}" width="800" height="360">
+          <figcaption>A schematic leg by ${escapeHtml(VEHICLES[journey.vehicle].toLowerCase())}. Not a surveyed track.</figcaption>
+        </figure>
+        <h2>Stops</h2>
+        <ol class="contents">
+          ${members.map((sauce, index) => `<li><a href="sauces/${sauce.slug}/">Arriving in ${escapeHtml(arrivalPlace(sauce))}: ${escapeHtml(sauce.name)}</a></li>`).join("")}
+        </ol>
+        <p><a href="map/">See this route on the map</a></p>
+      </article>`
+  }));
+}
 
 const centroids = loadCentroids();
 const builtBooks = BOOKS.map((book) => {
@@ -652,12 +856,18 @@ function buyBox(title, price) {
     </aside>`;
 }
 
+function shortPlace(sauce) {
+  if (!sauce) return "";
+  const raw = sauce.locale && sauce.locale !== sauce.country ? sauce.locale : sauce.country;
+  return String(raw).split(",")[0].trim().slice(0, 28);
+}
+
 function bookRoute(book) {
   if (book.route?.length) {
     return book.route.map((pair, index) => ({
       lat: pair[0],
       lng: pair[1],
-      label: book.members[index]?.country || ""
+      label: shortPlace(book.members[index])
     }));
   }
   const seen = new Set();
@@ -667,7 +877,7 @@ function bookRoute(book) {
     seen.add(sauce.countryCode);
     const center = centroids[sauce.countryCode];
     if (!center) continue;
-    points.push({ lat: center[0], lng: center[1], label: sauce.country });
+    points.push({ lat: center[0], lng: center[1], label: shortPlace(sauce) });
   }
   return points;
 }

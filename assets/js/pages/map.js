@@ -4,6 +4,7 @@ import { el } from "../lib/dom.js";
 import { siteUrl } from "../lib/url.js";
 import { EXTRA_CENTROIDS, ISO_ALIASES } from "../../../data/extra-centroids.js";
 import { labelOf, BASE_TYPES, HEATS } from "../../../data/vocabulary.js";
+import { JOURNEYS, VEHICLES } from "../../../data/journeys.js";
 
 function countriesOf(sauce) {
   return [sauce.countryCode, ...(sauce.alsoCountries || [])].filter(Boolean);
@@ -231,5 +232,42 @@ export async function init() {
   }
 
   restyle();
+  drawRoutes(map);
   if (state.country) selectCountry(state.country);
+}
+
+function vehicleMarkup(vehicle) {
+  if (vehicle === "train") {
+    return `<svg viewBox="0 0 36 36" width="28" height="28" aria-hidden="true"><rect x="4" y="12" width="28" height="12" rx="2" fill="#1e4d5c"/><circle cx="12" cy="26" r="3" fill="#1c1915"/><circle cx="24" cy="26" r="3" fill="#1c1915"/></svg>`;
+  }
+  if (vehicle === "boat") {
+    return `<svg viewBox="0 0 36 36" width="28" height="28" aria-hidden="true"><path d="M4 20h28l-4 8H8z" fill="#1e4d5c"/><path d="M18 20V8h2l8 12" stroke="#e2b007" fill="none" stroke-width="2"/></svg>`;
+  }
+  if (vehicle === "balloon") {
+    return `<svg viewBox="0 0 36 36" width="28" height="28" aria-hidden="true"><ellipse cx="18" cy="14" rx="10" ry="12" fill="#e2b007"/><path d="M14 26h8l-2 6h-4z" fill="#1e4d5c"/></svg>`;
+  }
+  return `<svg viewBox="0 0 36 36" width="28" height="28" aria-hidden="true"><path d="M4 20l16-4-6-8 2 9 8 2-10 3 6 8-2-9z" fill="#e2b007"/></svg>`;
+}
+
+function drawRoutes(map) {
+  for (const journey of JOURNEYS) {
+    const line = journey.route.map(([lat, lng]) => [lat, lng]);
+    window.L.polyline(line, { color: "#1c1915", weight: 5, opacity: 0.85 }).addTo(map);
+    window.L.polyline(line, { color: "#e2b007", weight: 2 }).addTo(map);
+    for (let index = 0; index < line.length - 1; index += 1) {
+      const mid = [(line[index][0] + line[index + 1][0]) / 2, (line[index][1] + line[index + 1][1]) / 2];
+      const icon = window.L.divIcon({
+        className: "leaflet-div-icon vehicle-icon",
+        html: vehicleMarkup(journey.vehicle),
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+      });
+      const marker = window.L.marker(mid, { icon, keyboard: true, title: `${journey.title}, ${VEHICLES[journey.vehicle]}` }).addTo(map);
+      marker.bindTooltip(`${journey.title} · ${VEHICLES[journey.vehicle]}`);
+      marker.on("click", (event) => {
+        window.L.DomEvent.stopPropagation(event);
+        location.href = siteUrl(`journeys/${journey.slug}/`);
+      });
+    }
+  }
 }

@@ -13,7 +13,13 @@ const SOUTH = new Set([
   "creole-sauce",
   "louisiana-remoulade",
   "louisiana-hot-sauce",
-  "texas-mop-sauce"
+  "texas-mop-sauce",
+  "chocolate-gravy",
+  "chow-chow",
+  "sorghum-glaze",
+  "tomato-gravy",
+  "cajun-brown-gravy",
+  "datil-pepper-sauce"
 ]);
 
 const EAST = new Set([
@@ -24,7 +30,7 @@ const EAST = new Set([
   "sunday-gravy",
   "general-tso-sauce",
   "drawn-butter",
-  "chesapeake-butter"
+  "hot-bacon-dressing"
 ]);
 
 const NORTH = new Set([
@@ -49,9 +55,7 @@ const ENGLAND = new Set([
   "lemon-curd",
   "chip-shop-curry-sauce",
   "coronation-dressing",
-  "tikka-masala-sauce",
-  "english-mustard",
-  "brown-sauce"
+  "tikka-masala-sauce"
 ]);
 
 const IRELAND = new Set([

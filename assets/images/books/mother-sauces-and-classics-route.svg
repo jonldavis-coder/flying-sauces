@@ -2,7 +2,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360">
   <rect width="800" height="360" fill="#f4efe4"/>
   <rect x="8" y="8" width="784" height="344" fill="none" stroke="#e2b007" stroke-width="6"/>
-  <path d="M354.5 137.4 L425.5 113.0 L193.8 142.2 L613.9 154.4" fill="none" stroke="#1e4d5c" stroke-width="3" stroke-dasharray="7 6"/>
-  <circle cx="354.5" cy="137.4" r="5" fill="#8c2f1e"/><circle cx="425.5" cy="113.0" r="5" fill="#8c2f1e"/><circle cx="193.8" cy="142.2" r="5" fill="#8c2f1e"/><circle cx="613.9" cy="154.4" r="5" fill="#8c2f1e"/>
-  <text x="362.5" y="129.4" font-family="Georgia, serif" font-size="12">France</text><text x="433.5" y="105.0" font-family="Georgia, serif" font-size="12">Italy</text><text x="201.8" y="134.2" font-family="Georgia, serif" font-size="12">Mexico</text><text x="621.9" y="146.4" font-family="Georgia, serif" font-size="12">Vietnam</text>
+  <path d="M321.2 200.8 L434.7 64.0 L64.0 227.4 L736.0 296.0" fill="none" stroke="#1e4d5c" stroke-width="3" stroke-dasharray="7 6"/>
+  <circle cx="321.2" cy="200.8" r="5" fill="#8c2f1e"/><circle cx="434.7" cy="64.0" r="5" fill="#8c2f1e"/><circle cx="64.0" cy="227.4" r="5" fill="#8c2f1e"/><circle cx="736.0" cy="296.0" r="5" fill="#8c2f1e"/>
+  <text x="329.2" y="192.8" font-family="Georgia, serif" font-size="12">French kitchens</text><text x="442.7" y="56.0" font-family="Georgia, serif" font-size="12">Genoa</text><text x="72.0" y="219.4" font-family="Georgia, serif" font-size="12">Puebla</text><text x="744.0" y="288.0" font-family="Georgia, serif" font-size="12">Vietnam</text>
 </svg>

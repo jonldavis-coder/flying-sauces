@@ -3,6 +3,7 @@ import { escapeHtml, safeJsonLd } from "../assets/js/lib/escape.js";
 const NAV = [
   ["index.html", "Field guide", "home"],
   ["map/", "Map", "map"],
+  ["journeys/", "Journeys", "journeys"],
   ["explore/", "Explore", "explore"],
   ["books/", "Recipe books", "books"],
   ["shop/", "Shop", "shop"],
@@ -85,6 +86,9 @@ export function page({
     <footer class="site-footer">
       <div class="wrap">
         <nav aria-label="Footer">
+          <a href="journeys/">Journeys</a>
+          <a href="places/">Places</a>
+          <a href="places/who-settled-the-flavor/">Who settled the flavor</a>
           <a href="shop/">Shop</a>
           <a href="books/">Recipe books</a>
           <a href="about/">About</a>
